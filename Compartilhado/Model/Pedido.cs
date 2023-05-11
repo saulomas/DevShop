@@ -1,7 +1,16 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
+using System.Text.Json.Serialization;
 
 namespace Compartilhado.Model
 {
+    public enum StatusDoPedido
+    {
+        Coletado,
+        Reservado,
+        Pago,
+        Faturado
+    }
+
     [DynamoDBTable("pedidos")]
     public class Pedido
     {
@@ -17,12 +26,11 @@ namespace Compartilhado.Model
 
         public Pagamento Pagamento { get; set; }
 
-        public string Justificativa { get; set; }
+        public string JustificativaDeCancelamento { get; set; }
 
-        public string Status { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public StatusDoPedido Status { get; set; }
 
-        public bool Pago { get; set; }
-
-        public bool Faturado { get; set; }
+        public bool Cancelado { get; set; }
     }
 }
